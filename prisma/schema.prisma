@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+
+}
+
+model User {
+  id        String   @id @default(cuid())
+  nama      String
+  umur      String
+  gender    String
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+}
+
+model Diagnosis {
+  id         String      @id @default(cuid())
+  text       String
+  deskripsi  String
+  prediksies Prediksi[]
+  gejalas    Gejala[]
+  createdAt  DateTime @default(now()) @db.Timestamp(6)
+}
+
+model Gejala {
+  id             Int        @id @default(autoincrement())
+  kode           String
+  text           String
+  deskripsi      String
+  diagnosis      Diagnosis  @relation(fields: [kode_diagnosis], references: [id])
+  kode_diagnosis String
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+}
+
+model Keputusan {
+  id         String      @id @default(cuid())
+  general_id     String
+  kode_gejala    String
+  kode_diagnosis String
+  bool           Boolean  @default(false)
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+}
+
+model General_id {
+  id         String      @id @default(cuid())
+  id_user   Int
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+}
+
+model Prediksi {
+  id              Int        @id @default(autoincrement())
+  id_user         Int
+  general_id      String
+  count_keputusan Int
+  count_gejala    Int
+  accuracy        Int
+  difference      Int
+  diagnosis       Diagnosis  @relation(fields: [kode_diagnosis], references: [id])
+  kode_diagnosis  String
+  createdAt       DateTime @default(now()) @db.Timestamp(6)
+}
