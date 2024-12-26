@@ -2,7 +2,27 @@
 
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Prediksi } from '@prisma/client'
+
+interface Diagnosis {
+    id: string;
+    text: string;
+    deskripsi: string;
+    createdAt: Date;
+}
+
+interface Prediksi {
+    id: number;
+    id_user: number;
+    general_id: string;
+    count_keputusan: number;
+    count_gejala: number;
+    accuracy: number;
+    difference: number;
+    kode_diagnosis: string;
+    createdAt: Date;
+    diagnosis: Diagnosis;
+}
+
 const Page = () => {
     const [keputusan, setKeputusan] = useState<Prediksi[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -68,7 +88,7 @@ const Page = () => {
                                     {index + 1}
                                 </td>
                                 <td className="px-4 py-2 border-r text-center text-base-800 font-semibold">
-                                    {item?.diagnosis.text}
+                                    {item?.diagnosis?.text}
                                 </td>
                                 <td className="px-4 py-2 border-r text-center font-semibold text-base-700">
                                     {item.accuracy} %
