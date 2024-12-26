@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, {Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 interface Diagnosis {
@@ -23,7 +23,7 @@ interface Prediksi {
     diagnosis: Diagnosis;
 }
 
-const Page = () => {
+const PrediksiList: React.FC = () => {
     const [keputusan, setKeputusan] = useState<Prediksi[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const searchParams = useSearchParams();
@@ -103,5 +103,13 @@ const Page = () => {
         return <p>No search parameter provided</p>;
     }
 }
+const Page: React.FC = () => {
+    return (
+        <Suspense fallback={<p>Loading...</p>}>
+            <PrediksiList />
+        </Suspense>
+    );
+};
+
 
 export default Page;
