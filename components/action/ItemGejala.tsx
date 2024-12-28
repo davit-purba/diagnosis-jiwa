@@ -16,7 +16,6 @@ type ItemsProps = {
 
 const ItemGejala = ({ item }: ItemsProps) => {
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
-  const [loading, setLoading] = useState<true | false>(false)
   const router = useRouter();
 
   console.log("Checked items:", checkedItems);
@@ -29,9 +28,6 @@ const ItemGejala = ({ item }: ItemsProps) => {
     if (selectedItems.length === 0) {
       alert('Pilih minimal satu item.');
       return;
-    }
-    if (loading != true) {
-      setLoading(!loading)
     }
 
     const jsonData = selectedItems.map(unit => ({
@@ -98,18 +94,11 @@ const ItemGejala = ({ item }: ItemsProps) => {
           ))}
         </div>
         <div className="mt-6 flex justify-end">
-          {loading ? (
-            <button className="btn">
-              <span className="loading loading-spinner"></span>
-              Kirim
-            </button>
-          ) : (
             <button
               className="btn btn-primary px-6 py-2 text-white font-medium rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
               type="submit">
               Kirim
             </button>
-          )}
         </div>
       </form>
     </div>
